@@ -1,9 +1,9 @@
-Feature: My bootstrapped app kinda works
-  In order to get going on coding my awesome app
-  I want to have aruba and cucumber setup
-  So I don't have to do it myself
+Feature: Documentation
+  In order to use lsi
+  I want to have help documentation
+  So I can learn the arguments and options
 
-  Scenario: App just runs
+  Scenario: App has help documentation
     When I get help for "lsi"
     Then the exit status should be 0
     And the banner should be present
