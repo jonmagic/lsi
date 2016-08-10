@@ -3,7 +3,6 @@ PATH
   specs:
     lsi (0.1.0)
       methadone (~> 1.9.2)
-      tty-prompt (~> 0.7.1)
 
 GEM
   remote: https://rubygems.org/
@@ -31,7 +30,6 @@ GEM
       gherkin (~> 4.0)
     cucumber-wire (0.0.1)
     diff-lcs (1.2.5)
-    equatable (0.5.0)
     ffi (1.9.14)
     gherkin (4.0.0)
     json (1.8.3)
@@ -39,10 +37,6 @@ GEM
       bundler
     multi_json (1.12.1)
     multi_test (0.1.2)
-    necromancer (0.3.0)
-    pastel (0.6.1)
-      equatable (~> 0.5.0)
-      tty-color (~> 0.3.0)
     power_assert (0.3.0)
     rake (11.2.2)
     rdoc (4.2.2)
@@ -54,14 +48,6 @@ GEM
     test-unit (3.2.1)
       power_assert
     thor (0.19.1)
-    tty-color (0.3.0)
-    tty-cursor (0.3.0)
-    tty-prompt (0.7.1)
-      necromancer (~> 0.3.0)
-      pastel (~> 0.6.0)
-      tty-cursor (~> 0.3.0)
-      wisper (~> 1.6.1)
-    wisper (1.6.1)
 
 PLATFORMS
   ruby

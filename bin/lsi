@@ -2,7 +2,6 @@
 
 require "optparse"
 require "methadone"
-require "tty-prompt"
 require "open3"
 lib = File.expand_path("../../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -14,16 +13,14 @@ class App
 
   main do |command, path|
     path = path || Dir.pwd
-    choices = [
-      { key: "a", name: "apply #{command}", value: :apply },
-      { key: "s", name: "skip this item", value: :skip },
-      { key: "q", name: "quit", value: :quit }
-    ]
-    prompt = TTY::Prompt.new
-
     Dir["#{path}/*"].each do |item|
-      case prompt.expand(item, choices, :echo => false)
-      when :apply
+      filename = File.basename(item)
+
+      print "Run `#{command} #{filename}`? [y,n,q] (y): "
+      # require "pry"
+      # binding.pry
+      case STDIN.gets.chomp
+      when "y", ""
         stdout, stderr, status = Open3.capture3("#{command} #{item}")
 
         if status.success?
@@ -31,10 +28,12 @@ class App
         else
           puts stderr
         end
-      when :skip
+      when "n"
         next
-      when :quit
+      when "q"
         exit
+      else
+        exit!
       end
     end
   end
