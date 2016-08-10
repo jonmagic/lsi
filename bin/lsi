@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "methadone"
+require "tty-prompt"
+require "open3"
+lib = File.expand_path("../../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "lsi"
+
+class App
+  include Methadone::Main
+  include Methadone::CLILogging
+
+  main do |command, path|
+    path = path || Dir.pwd
+    choices = [
+      { key: "a", name: "apply #{command}", value: :apply },
+      { key: "s", name: "skip this item", value: :skip },
+      { key: "q", name: "quit", value: :quit }
+    ]
+    prompt = TTY::Prompt.new
+
+    Dir["#{path}/*"].each do |item|
+      case prompt.expand(item, choices, :echo => false)
+      when :apply
+        stdout, stderr, status = Open3.capture3("#{command} #{item}")
+
+        if status.success?
+          puts stdout
+        else
+          puts stderr
+        end
+      when :skip
+        next
+      when :quit
+        exit
+      end
+    end
+  end
+
+  # supplemental methods here
+
+  # Declare command-line interface here
+
+  # description "one line description of your app"
+  #
+  # Accept flags via:
+  #
+  # options[flag] will contain VAL
+  #
+  # Specify switches via:
+  # on("--[no-]switch","Some switch")
+  #
+  # Or, just call OptionParser methods on opts
+  #
+  # Require an argument
+  # arg :some_arg
+  #
+  # # Make an argument optional
+  arg :command, :required
+  arg :path, :optional
+
+  version Lsi::VERSION
+
+  use_log_level_option :toggle_debug_on_signal => "USR1"
+
+  go!
+end
