@@ -12,57 +12,7 @@ class App
   include Methadone::CLILogging
 
   main do |command, path|
-    apply = if command
-      lambda do |path|
-        stdout, stderr, status = Open3.capture3("#{command} #{path}")
-
-        if status.success?
-          puts stdout
-        else
-          puts stderr
-        end
-      end
-    else
-      lambda do |path|
-        filename = File.basename(path)
-        stat = File.stat(path)
-
-        if stat.directory?
-          puts "#{filename} is a directory with permissions #{sprintf("%o", stat.mode)}"
-        else
-          puts "#{filename} is a #{stat.size} byte file with permissions #{sprintf("%o", stat.mode)}"
-        end
-      end
-    end
-
-    list = if options[:l]
-      stdout, stderr, status = Open3.capture3(options[:l])
-
-      if status.success?
-        stdout.split("\n")
-      end
-    end
-
-    (list || Dir["#{path || Dir.pwd}/*"]).each do |item|
-      filename = File.basename(item)
-
-      if command
-        print "Run `#{command} #{filename}`? [y,n,q] (y): "
-      else
-        print "Get info for `#{filename}`? [y,n,q] (y): "
-      end
-
-      case STDIN.gets.chomp
-      when "y", ""
-        apply.call(item)
-      when "n"
-        next
-      when "q"
-        exit
-      else
-        exit!
-      end
-    end
+    Lsi.run(command: command, path: path, list_command: options[:l])
   end
 
   # supplemental methods here
