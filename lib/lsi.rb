@@ -45,11 +45,13 @@ class Lsi
       if status.success?
         stdout.split("\n")
       end
+    else
+      Dir["#{path || Dir.pwd}/*"]
     end
   end
 
   def run
-    (list || Dir["#{path || Dir.pwd}/*"]).each do |item|
+    list.each do |item|
       filename = File.basename(item)
 
       if command
