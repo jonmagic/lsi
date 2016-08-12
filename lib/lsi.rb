@@ -4,11 +4,11 @@ require "lsi/list"
 require "lsi/version"
 
 class Lsi
-  def self.run(*args)
-    new(*args).run
+  def self.start(*args)
+    new(*args).start
   end
 
-  def run
+  def start
     list.items.each do |item|
       ask_question(item)
       wait_for_and_process_input(item)

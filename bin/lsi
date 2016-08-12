@@ -11,7 +11,7 @@ class App
   include Methadone::CLILogging
 
   main do |command, path|
-    Lsi.run(command: command, path: path, list_command: options[:l])
+    Lsi.start(command: command, path: path, list_command: options[:l])
   end
 
   on("-l LIST_COMMAND", "Custom list command")
