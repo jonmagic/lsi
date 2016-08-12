@@ -23,8 +23,12 @@ class Lsi
         stdout.split("\n")
       end
     else
-      Dir["#{path || Dir.pwd}/*"]
+      directory_listing
     end
+  end
+
+  def directory_listing
+    Dir["#{path || Dir.pwd}/*"]
   end
 
   def ask_question(item)
