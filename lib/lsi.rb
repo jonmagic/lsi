@@ -13,8 +13,8 @@ class Lsi
 
   attr_reader :command, :path, :list_command
 
-  def run
-    apply = if command
+  def apply
+    if command
       lambda do |path|
         stdout, stderr, status = Open3.capture3("#{command} #{path}")
 
@@ -36,7 +36,9 @@ class Lsi
         end
       end
     end
+  end
 
+  def run
     list = if list_command
       stdout, stderr, status = Open3.capture3(list_command)
 
