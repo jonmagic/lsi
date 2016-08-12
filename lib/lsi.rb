@@ -50,15 +50,25 @@ class Lsi
     end
   end
 
+  def ask_question(item)
+    if command
+      print "Run `#{command} #{item_human_name(item)}`? [y,n,q] (y): "
+    else
+      print "Get info for `#{item_human_name(item)}`? [y,n,q] (y): "
+    end
+  end
+
+  def item_human_name(item)
+    if list_command
+      item
+    else
+      File.basename(item)
+    end
+  end
+
   def run
     items.each do |item|
-      filename = File.basename(item)
-
-      if command
-        print "Run `#{command} #{filename}`? [y,n,q] (y): "
-      else
-        print "Get info for `#{filename}`? [y,n,q] (y): "
-      end
+      ask_question(item)
 
       case STDIN.gets.chomp
       when "y", ""
