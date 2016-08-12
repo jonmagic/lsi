@@ -35,7 +35,15 @@ class App
       end
     end
 
-    Dir["#{path || Dir.pwd}/*"].each do |item|
+    list = if options[:l]
+      stdout, stderr, status = Open3.capture3(options[:l])
+
+      if status.success?
+        stdout.split
+      end
+    end
+
+    (list || Dir["#{path || Dir.pwd}/*"]).each do |item|
       filename = File.basename(item)
 
       if command
@@ -69,6 +77,7 @@ class App
   #
   # Specify switches via:
   # on("--[no-]switch","Some switch")
+  on("-l LIST_COMMAND", "Custom list command")
   #
   # Or, just call OptionParser methods on opts
   #
