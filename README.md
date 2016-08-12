@@ -4,6 +4,12 @@ Interactively operate on a list.
 
 ![demo](https://cl.ly/1i2t0V0P101k/Screen%20Recording%202016-08-11%20at%2010.42%20PM.gif)
 
+## Install
+
+```bash
+$ gem install lsi
+```
+
 ## Usage
 
 ```bash
