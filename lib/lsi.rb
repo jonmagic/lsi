@@ -66,20 +66,23 @@ class Lsi
     end
   end
 
+  def wait_for_and_process_input(item)
+    case STDIN.gets.chomp
+    when "y", ""
+      apply.call(item)
+    when "n"
+      # noop
+    when "q"
+      exit
+    else
+      exit!
+    end
+  end
+
   def run
     items.each do |item|
       ask_question(item)
-
-      case STDIN.gets.chomp
-      when "y", ""
-        apply.call(item)
-      when "n"
-        next
-      when "q"
-        exit
-      else
-        exit!
-      end
+      wait_for_and_process_input(item)
     end
   end
 end
