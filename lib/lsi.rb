@@ -38,7 +38,7 @@ class Lsi
     end
   end
 
-  def list
+  def items
     if list_command
       stdout, stderr, status = Open3.capture3(list_command)
 
@@ -51,7 +51,7 @@ class Lsi
   end
 
   def run
-    list.each do |item|
+    items.each do |item|
       filename = File.basename(item)
 
       if command
