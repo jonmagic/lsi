@@ -39,7 +39,7 @@ class App
       stdout, stderr, status = Open3.capture3(options[:l])
 
       if status.success?
-        stdout.split
+        stdout.split("\n")
       end
     end
 
