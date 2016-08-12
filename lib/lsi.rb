@@ -33,7 +33,7 @@ class Lsi
   def wait_for_and_process_input(item)
     case STDIN.gets.chomp
     when "y", ""
-      command.call(item)
+      command.run(item)
     when "n"
       # noop
     when "q"

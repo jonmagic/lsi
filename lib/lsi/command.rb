@@ -12,7 +12,7 @@ class Lsi
       !!command
     end
 
-    def call(item)
+    def run(item)
       if custom?
         custom(item)
       else
