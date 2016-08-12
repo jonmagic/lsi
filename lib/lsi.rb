@@ -38,15 +38,17 @@ class Lsi
     end
   end
 
-  def run
-    list = if list_command
+  def list
+    if list_command
       stdout, stderr, status = Open3.capture3(list_command)
 
       if status.success?
         stdout.split("\n")
       end
     end
+  end
 
+  def run
     (list || Dir["#{path || Dir.pwd}/*"]).each do |item|
       filename = File.basename(item)
 
