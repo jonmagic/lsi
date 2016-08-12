@@ -8,6 +8,13 @@ class Lsi
     new(*args).run
   end
 
+  def run
+    list.items.each do |item|
+      ask_question(item)
+      wait_for_and_process_input(item)
+    end
+  end
+
   def initialize(command:, path:, list_command:)
     @command = Command.new(command: command)
     @list = List.new(path: path, list_command: list_command)
@@ -33,13 +40,6 @@ class Lsi
       exit
     else
       exit!
-    end
-  end
-
-  def run
-    list.items.each do |item|
-      ask_question(item)
-      wait_for_and_process_input(item)
     end
   end
 end
