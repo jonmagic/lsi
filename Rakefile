@@ -5,8 +5,6 @@ require "rake/testtask"
 
 require "cucumber"
 require "cucumber/rake/task"
-gem "rdoc" # we need the installed RDoc gem, not the system one
-require "rdoc/task"
 
 include Rake::DSL
 

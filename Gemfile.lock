@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lsi (0.1.0)
+    lsi (1.0.0)
       methadone (~> 1.9.2)
 
 GEM
@@ -32,15 +32,12 @@ GEM
     diff-lcs (1.2.5)
     ffi (1.9.14)
     gherkin (4.0.0)
-    json (1.8.3)
     methadone (1.9.2)
       bundler
     multi_json (1.12.1)
     multi_test (0.1.2)
     power_assert (0.3.0)
     rake (11.2.2)
-    rdoc (4.2.2)
-      json (~> 1.4)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
@@ -53,12 +50,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aruba
+  aruba (~> 0.14)
   bundler (~> 1.12)
   lsi!
-  rake
-  rdoc
-  test-unit
+  rake (~> 11.2)
+  test-unit (~> 3.2)
 
 BUNDLED WITH
    1.12.5
