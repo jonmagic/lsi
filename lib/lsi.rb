@@ -1,7 +1,19 @@
 require "lsi/version"
 
 class Lsi
-  def self.run(command:, path:, list_command:)
+  def self.run(*args)
+    new(*args).run
+  end
+
+  def initialize(command:, path:, list_command:)
+    @command = command
+    @path = path
+    @list_command = list_command
+  end
+
+  attr_reader :command, :path, :list_command
+
+  def run
     apply = if command
       lambda do |path|
         stdout, stderr, status = Open3.capture3("#{command} #{path}")
