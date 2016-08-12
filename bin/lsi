@@ -12,21 +12,41 @@ class App
   include Methadone::CLILogging
 
   main do |command, path|
-    path = path || Dir.pwd
-    Dir["#{path}/*"].each do |item|
-      filename = File.basename(item)
-
-      print "Run `#{command} #{filename}`? [y,n,q] (y): "
-
-      case STDIN.gets.chomp
-      when "y", ""
-        stdout, stderr, status = Open3.capture3("#{command} #{item}")
+    apply = if command
+      lambda do |path|
+        stdout, stderr, status = Open3.capture3("#{command} #{path}")
 
         if status.success?
           puts stdout
         else
           puts stderr
         end
+      end
+    else
+      lambda do |path|
+        filename = File.basename(path)
+        stat = File.stat(path)
+
+        if stat.directory?
+          puts "#{filename} is a directory with permissions #{sprintf("%o", stat.mode)}"
+        else
+          puts "#{filename} is a #{stat.size} byte file with permissions #{sprintf("%o", stat.mode)}"
+        end
+      end
+    end
+
+    Dir["#{path || Dir.pwd}/*"].each do |item|
+      filename = File.basename(item)
+
+      if command
+        print "Run `#{command} #{filename}`? [y,n,q] (y): "
+      else
+        print "Get info for `#{filename}`? [y,n,q] (y): "
+      end
+
+      case STDIN.gets.chomp
+      when "y", ""
+        apply.call(item)
       when "n"
         next
       when "q"
@@ -56,7 +76,7 @@ class App
   # arg :some_arg
   #
   # # Make an argument optional
-  arg :command, :required
+  arg :command, :optional
   arg :path, :optional
 
   version Lsi::VERSION
