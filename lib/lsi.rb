@@ -1,5 +1,6 @@
 require "open3"
 require "lsi/command"
+require "lsi/list"
 require "lsi/version"
 
 class Lsi
@@ -9,41 +10,16 @@ class Lsi
 
   def initialize(command:, path:, list_command:)
     @command = Command.new(command: command)
-    @path = path
-    @list_command = list_command
+    @list = List.new(path: path, list_command: list_command)
   end
 
-  attr_reader :command, :path, :list_command
-
-  def items
-    if list_command
-      stdout, stderr, status = Open3.capture3(list_command)
-
-      if status.success?
-        stdout.split("\n")
-      end
-    else
-      directory_listing
-    end
-  end
-
-  def directory_listing
-    Dir["#{path || Dir.pwd}/*"]
-  end
+  attr_reader :command, :list
 
   def ask_question(item)
     if command.custom?
-      print "Run `#{command.command} #{item_human_name(item)}`? [y,n,q] (y): "
+      print "Run `#{command.command} #{list.item_human_name(item)}`? [y,n,q] (y): "
     else
-      print "Get info for `#{item_human_name(item)}`? [y,n,q] (y): "
-    end
-  end
-
-  def item_human_name(item)
-    if list_command
-      item
-    else
-      File.basename(item)
+      print "Get info for `#{list.item_human_name(item)}`? [y,n,q] (y): "
     end
   end
 
@@ -61,7 +37,7 @@ class Lsi
   end
 
   def run
-    items.each do |item|
+    list.items.each do |item|
       ask_question(item)
       wait_for_and_process_input(item)
     end
