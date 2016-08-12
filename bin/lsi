@@ -15,26 +15,8 @@ class App
     Lsi.run(command: command, path: path, list_command: options[:l])
   end
 
-  # supplemental methods here
-
-  # Declare command-line interface here
-
-  # description "one line description of your app"
-  #
-  # Accept flags via:
-  #
-  # options[flag] will contain VAL
-  #
-  # Specify switches via:
-  # on("--[no-]switch","Some switch")
   on("-l LIST_COMMAND", "Custom list command")
-  #
-  # Or, just call OptionParser methods on opts
-  #
-  # Require an argument
-  # arg :some_arg
-  #
-  # # Make an argument optional
+
   arg :command, :optional
   arg :path, :optional
 
